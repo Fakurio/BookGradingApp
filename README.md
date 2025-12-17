@@ -41,5 +41,5 @@ W czasie rzeczywistym wyświetlane są statystyki dotyczące liczby książek i
   Testy jednostkowe można uruchomić za pomocą komendy
 
   ```bash
-    cd backend && python3 -m pytest
+     cd backend && pip install -r requirements.txt && python3 -m pytest
   ```
