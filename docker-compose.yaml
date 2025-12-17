@@ -1,0 +1,42 @@
+services:
+  db:
+    container_name: db
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bookdb
+    networks:
+      - backend
+    restart: on-failure
+
+  backend:
+    container_name: backend
+    build: ./backend
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: mysql+pymysql://root:root@db/bookdb
+    networks:
+      - backend
+      - frontend
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_SERVER_HOST: http://localhost:8000
+    ports:
+      - "8080:80"
+    networks:
+      - frontend
+    restart: on-failure
+    depends_on:
+      - backend
+
+networks:
+  backend:
+  frontend:
